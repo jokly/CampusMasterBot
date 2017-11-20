@@ -40,6 +40,8 @@ def phone(bot, update):
 
     LOGGER.info(str(chat_id) + ' : ' + str(phone_number))
 
+    update.message.reply_text('Ты успешно зарегестрирован!', reply_markup=ReplyKeyboardRemove())
+
     return ConversationHandler.END
 
 def cancel(bot, update):
