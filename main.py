@@ -1,20 +1,19 @@
 """Main module"""
 
 import logging
+import os
 from pg import DB
 
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton)
-from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, RegexHandler,
-                          ConversationHandler)
+from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler)
 
 import ParseConfig
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
-logger = logging.getLogger(__name__)
+LOGGER = logging.getLogger(__name__)
 
-TOKEN = ParseConfig.get_token()
 DB_CONFIG = ParseConfig.get_db_config()
 
 PDB = DB(dbname=DB_CONFIG['dbname'], host=DB_CONFIG['host'], port=DB_CONFIG['port'],\
@@ -36,13 +35,13 @@ def start(bot, update):
 def phone(bot, update):
     chat_id = update.message.chat_id
     phone_number = update.message.contact.phone_number
-    logger.info(str(chat_id) + ' : ' + str(phone_number))
+    LOGGER.info(str(chat_id) + ' : ' + str(phone_number))
 
     return ConversationHandler.END
 
 def cancel(bot, update):
     user = update.message.from_user
-    logger.info("Пользователь %s закончил диалог", user.first_name)
+    LOGGER.info("Пользователь %s закончил диалог", user.first_name)
     update.message.reply_text('Пока :)',
                               reply_markup=ReplyKeyboardRemove())
 
@@ -50,11 +49,12 @@ def cancel(bot, update):
 
 def error(bot, update, error):
     """Logg error caused by updates"""
-    logger.warning('Update "%s" caused error "%s"', update, error)
+    LOGGER.warning('Update "%s" caused error "%s"', update, error)
 
 def main():
     """Start bot"""
     token = ParseConfig.get_token()
+    port = int(os.environ.get('PORT', '5000'))
     updater = Updater(token)
     dpt = updater.dispatcher
 
@@ -72,7 +72,9 @@ def main():
 
     dpt.add_error_handler(error)
 
-    updater.start_polling()
+    updater.start_webhook(listen="0.0.0.0", port=port, url_path=token)
+    updater.bot.set_webhook("https://master-campus-bot.herokuapp.com/" + token)
+
     updater.idle()
 
 if __name__ == '__main__':
