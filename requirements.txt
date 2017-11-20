@@ -1,0 +1,2 @@
+pylint==1.7.4
+python-telegram-bot==8.1.1
