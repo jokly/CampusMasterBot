@@ -1,3 +1,10 @@
 {
-    "token": "388892417:AAFesPinEVXPLk146VAoQElCkR8VMc1MWRo"
+    "token": "388892417:AAFesPinEVXPLk146VAoQElCkR8VMc1MWRo",
+    "db":{
+        "dbname": "d1ottedgt9p277",
+        "host": "ec2-54-243-255-57.compute-1.amazonaws.com",
+        "port": 5432,
+        "user": "tclpofxpdjngwg",
+        "passwd": "ef9dfb78ab595ff5ca5ffdf3f9cbcfa1a8e38b2ffb42319f1a42a591f6e4cb48"
+    }
 }

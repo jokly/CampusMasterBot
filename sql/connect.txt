@@ -1,0 +1,3 @@
+psql -h ec2-54-243-255-57.compute-1.amazonaws.com -p 5432 -U tclpofxpdjngwg d1ottedgt9p277
+
+pass: ef9dfb78ab595ff5ca5ffdf3f9cbcfa1a8e38b2ffb42319f1a42a591f6e4cb48
