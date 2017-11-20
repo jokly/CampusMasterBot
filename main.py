@@ -2,27 +2,27 @@
 
 import logging
 import os
-from pg import DB
 
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton)
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler)
 
 import ParseConfig
+from DBWorker import RegStatus
+import DBWorker
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
 LOGGER = logging.getLogger(__name__)
 
-DB_CONFIG = ParseConfig.get_db_config()
-
-PDB = DB(dbname=DB_CONFIG['dbname'], host=DB_CONFIG['host'], port=DB_CONFIG['port'],\
-         user=DB_CONFIG['user'], passwd=DB_CONFIG['passwd'])
-
 PHONE, ROOM = range(2)
 
 def start(bot, update):
     """ /start command"""
+
+    if DBWorker.get_reg_status(update.message.chat_id) != RegStatus.NO_PHONE:
+        update.message.reply_text('У меня уже есть твой мобильный :)')
+        return ConversationHandler.END
 
     phone_btn = KeyboardButton(text="Отправить номер", request_contact=True)
     keyboard = ReplyKeyboardMarkup([[phone_btn]], one_time_keyboard=True)
@@ -35,6 +35,9 @@ def start(bot, update):
 def phone(bot, update):
     chat_id = update.message.chat_id
     phone_number = update.message.contact.phone_number
+
+    DBWorker.reg_user(chat_id, phone_number)
+
     LOGGER.info(str(chat_id) + ' : ' + str(phone_number))
 
     return ConversationHandler.END
