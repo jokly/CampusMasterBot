@@ -4,7 +4,7 @@ DROP TABLE Users;
 CREATE TABLE Users (
     chat_id          INT      NOT NULL PRIMARY KEY,
     telephone_number CHAR(12) NOT NULL,
-    room             CHAR(4)
+    room             CHAR(5)
 );
 
 CREATE TABLE Complaints (
