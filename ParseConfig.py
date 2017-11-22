@@ -1,15 +1,20 @@
 """Parse config file"""
 
-import json
+from os import environ
 
-DATA = json.load(open('config.json'))
+def get_env():
+    """Return enviroment ['dev' or 'prod']"""
+
+    return environ.get('ENV')
 
 def get_token():
     """Return token"""
 
-    return DATA['token']
+    return environ.get("TOKEN")
 
 def get_db_config():
     """Return database connection config"""
-    
-    return DATA['db']
+
+    return {'dbname': environ.get('DB_NAME'), 'host': environ.get('DB_HOST'),
+            'port': environ.get('DB_PORT'), 'user': environ.get('DB_USER'),
+            'passwd': environ.get('DB_PASSWD')}

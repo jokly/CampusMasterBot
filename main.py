@@ -18,9 +18,11 @@ LOGGER = logging.getLogger(__name__)
 PHONE, ROOM = range(2)
 
 def start(bot, update):
-    """ /start command"""
+    """/start command"""
 
-    if DBWorker.get_reg_status(update.message.chat_id) != RegStatus.NO_PHONE:
+    reg_status = DBWorker.get_reg_status(update.message.chat_id)
+
+    if reg_status != RegStatus.NO_PHONE:
         update.message.reply_text('У меня уже есть твой мобильный :)')
         return ConversationHandler.END
 
@@ -77,8 +79,11 @@ def main():
 
     dpt.add_error_handler(error)
 
-    updater.start_webhook(listen="0.0.0.0", port=port, url_path=token)
-    updater.bot.set_webhook("https://master-campus-bot.herokuapp.com/" + token)
+    if ParseConfig.get_env() == 'prod':
+        updater.start_webhook(listen="0.0.0.0", port=port, url_path=token)
+        updater.bot.set_webhook("https://master-campus-bot.herokuapp.com/" + token)
+    else:
+        updater.start_polling()
 
     updater.idle()
 
