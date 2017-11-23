@@ -1,11 +1,11 @@
 """Module for working with database"""
 
 from enum import Enum
-from pg import DB, DatabaseError
+import pg
 import ParseConfig
 
 DB_CONFIG = ParseConfig.get_db_config()
-PDB = DB(dbname=DB_CONFIG['dbname'], host=DB_CONFIG['host'], port=int(DB_CONFIG['port']),\
+PDB = pg.DB(dbname=DB_CONFIG['dbname'], host=DB_CONFIG['host'], port=int(DB_CONFIG['port']),\
          user=DB_CONFIG['user'], passwd=DB_CONFIG['passwd'])
 
 class RegStatus(Enum):
@@ -28,7 +28,7 @@ def get_reg_status(user_chat_id):
 
         return RegStatus.COMPLETE
 
-    except DatabaseError:
+    except pg.DatabaseError:
         return RegStatus.NO_PHONE
 
 def reg_user(user_chat_id, telephone_number):
@@ -38,4 +38,10 @@ def reg_user(user_chat_id, telephone_number):
 
 def update_room(user_chat_id, room):
     """Update user room"""
+
     PDB.update('users', PDB.get('users', dict(chat_id=user_chat_id)), room=room)
+
+def add_complaint(user_chat_id, text):
+    """Add user complaint"""
+
+    PDB.insert('complaints', chat_id=user_chat_id, text=text)
