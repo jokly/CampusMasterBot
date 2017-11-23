@@ -4,8 +4,7 @@ import logging
 import os
 
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton)
-from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
-                          ConversationHandler, CallbackQueryHandler, RegexHandler)
+from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler)
 
 import ParseConfig
 from DBWorker import RegStatus
@@ -16,7 +15,10 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 LOGGER = logging.getLogger(__name__)
 
+REG_BTNS = ParseConfig.get_reg_btns()
 PHONE, ROOM = range(2)
+
+MAIN_MENU_BTNS = ParseConfig.get_main_menu_btns()
 MAIN_MENU, UPDATE_ROOM, COMPLAINT = range(3)
 
 def start(bot, update):
@@ -34,7 +36,7 @@ def start(bot, update):
 
         return ConversationHandler.END
 
-    phone_btn = KeyboardButton(text="Отправить номер", request_contact=True)
+    phone_btn = KeyboardButton(text=REG_BTNS['share_phone_number'], request_contact=True)
     keyboard = ReplyKeyboardMarkup([[phone_btn]], one_time_keyboard=True)
 
     update.message.reply_text('Привет! Мне нужен твой номер телеофна :)',
@@ -84,8 +86,8 @@ def main_menu(bot, update):
         update.message.reply_text('Вы заполнили не все данные о себе. Введи /start для регистрации.')
         return ConversationHandler.END
 
-    change_room_btn = KeyboardButton(text='Изменить комнату')
-    send_complaint_btn = KeyboardButton(text='Отправить жалобу')
+    change_room_btn = KeyboardButton(text=MAIN_MENU_BTNS['change_room'])
+    send_complaint_btn = KeyboardButton(text=MAIN_MENU_BTNS['send_complaint'])
 
     keyboard = ReplyKeyboardMarkup([[change_room_btn, send_complaint_btn]], one_time_keyboard=True)
 
@@ -99,10 +101,10 @@ def main_menu_handler(bot, update):
 
     cmd = update.message.text
 
-    if cmd == 'Изменить комнату':
+    if cmd == MAIN_MENU_BTNS['change_room']:
         update.message.reply_text('Введите новый номер комнаты.')
         return ROOM
-    elif cmd == 'Отправить жалобу':
+    elif cmd == MAIN_MENU_BTNS['send_complaint']:
         update.message.reply_text('Введите свою жалобу.')
         return COMPLAINT
 

@@ -1,0 +1,25 @@
+{
+    "conversations":
+    {
+        "registration":
+        {
+
+        },
+        "main":
+        {
+
+        }
+    },
+    "menus":
+    {
+        "reg_menu":
+        {
+            "share_phone_number": "Отправить номер"
+        },
+        "main_menu":
+        {
+            "change_room": "Изменить комнату",
+            "send_complaint": "Отправить жалобу"
+        }
+    }
+}
