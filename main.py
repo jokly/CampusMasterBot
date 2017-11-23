@@ -83,7 +83,9 @@ def main_menu(bot, update):
     """Show main menu"""
 
     if DBWorker.get_reg_status(update.message.chat_id) != RegStatus.COMPLETE:
-        update.message.reply_text('Вы заполнили не все данные о себе. Введи /start для регистрации.')
+        update.message.reply_text('Вы заполнили не все данные о себе. '
+                                  'Введи /start для регистрации.')
+
         return ConversationHandler.END
 
     change_room_btn = KeyboardButton(text=MAIN_MENU_BTNS['change_room'])
@@ -179,13 +181,16 @@ def main():
 
     dpt.add_error_handler(error)
 
-    if ParseConfig.get_env() == 'prod':
-        LOGGER.info('------PROD_ENV------')
+    env = ParseConfig.get_env()
+    if env == 'prod':
+        LOGGER.info('------Production environment------')
         updater.start_webhook(listen="0.0.0.0", port=port, url_path=token)
-        updater.bot.set_webhook("https://master-campus-bot.herokuapp.com/" + token)
-    else:
-        LOGGER.info('------DEV_ENV------')
+        updater.bot.set_webhook('https:/' + ParseConfig.get_url() + '.herokuapp.com/' + token)
+    elif env == 'dev':
+        LOGGER.info('------Development environment------')
         updater.start_polling()
+    else:
+        LOGGER.info('------Unkonwn environment------')
 
     updater.idle()
 
