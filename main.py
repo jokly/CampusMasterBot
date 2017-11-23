@@ -39,7 +39,7 @@ def start(bot, update):
     phone_btn = KeyboardButton(text=REG_BTNS['share_phone_number'], request_contact=True)
     keyboard = ReplyKeyboardMarkup([[phone_btn]], one_time_keyboard=True)
 
-    update.message.reply_text('Привет! Мне нужен твой номер телеофна :)',
+    update.message.reply_text('Привет! Мне нужен твой номер телефона :)',
                               reply_markup=keyboard)
 
     return PHONE
@@ -63,7 +63,7 @@ def update_room(update, state):
     """Update user room"""
     room_str = update.message.text
 
-    if len(room_str) != 5:
+    if len(room_str) != 4 or not str.isdigit(room_str):
         update.message.reply_text('Пожалуйста, введите корректный номер комнаты.')
         return state
 
