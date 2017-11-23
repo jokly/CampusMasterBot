@@ -185,7 +185,7 @@ def main():
     if env == 'prod':
         LOGGER.info('------Production environment------')
         updater.start_webhook(listen="0.0.0.0", port=port, url_path=token)
-        updater.bot.set_webhook('https:/' + ParseConfig.get_url() + '.herokuapp.com/' + token)
+        updater.bot.set_webhook('https://' + ParseConfig.get_url() + '.herokuapp.com/' + token)
     elif env == 'dev':
         LOGGER.info('------Development environment------')
         updater.start_polling()
