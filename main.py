@@ -2,6 +2,7 @@
 
 import logging
 import os
+import re
 
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton)
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler)
@@ -50,9 +51,13 @@ def phone(bot, update):
     chat_id = update.message.chat_id
     phone_number = update.message.contact.phone_number
 
+    LOGGER.info('New user: ' + str(chat_id) + ' | ' + str(phone_number))
+
+    phone_number = re.sub('[()+-]', '', phone_number)
+
     DBWorker.reg_user(chat_id, phone_number)
 
-    LOGGER.info('New user: ' + str(chat_id) + ' | ' + str(phone_number))
+    LOGGER.info('User was registered: ' + str(chat_id) + ' | ' + str(phone_number))
 
     update.message.reply_text('Теперь введи номер своей комнаты, как на твоем пропуске.',
                               reply_markup=ReplyKeyboardRemove())
