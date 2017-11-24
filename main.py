@@ -137,6 +137,14 @@ def get_complaint(bot, update):
 
     return MAIN_MENU
 
+def help(bot, update):
+    """Show help information"""
+
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+
+    update.message.reply_text('Для регистрации или ее продолжения введите - /start. \n' +
+                              'Для вывода главного меню введите - /main.')
+
 def error(bot, update, error_msg):
     """Logg error caused by updates"""
 
@@ -175,6 +183,7 @@ def main():
 
     dpt.add_handler(reg_conv_handler)
     dpt.add_handler(main_conv_handler)
+    dpt.add_handler(CommandHandler('help', help))
 
     dpt.add_error_handler(error)
 
