@@ -4,7 +4,7 @@ import logging
 import os
 import re
 
-from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton)
+from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton, ChatAction)
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler)
 
 import ParseConfig
@@ -24,6 +24,8 @@ MAIN_MENU, UPDATE_ROOM, COMPLAINT = range(3)
 
 def start(bot, update):
     """/start command"""
+
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     reg_status = DBWorker.get_reg_status(update.message.chat_id)
 
@@ -48,6 +50,8 @@ def start(bot, update):
 def phone(bot, update):
     """Get user phone"""
 
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+
     chat_id = update.message.chat_id
     phone_number = update.message.contact.phone_number
 
@@ -66,6 +70,7 @@ def phone(bot, update):
 
 def update_room(update, state):
     """Update user room"""
+
     room_str = update.message.text
 
     if len(room_str) != 4 or not str.isdigit(room_str):
@@ -77,6 +82,8 @@ def update_room(update, state):
 def room(bot, update):
     """Register user room"""
 
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+
     if update_room(update, ROOM) == ROOM:
         return ROOM
 
@@ -86,6 +93,8 @@ def room(bot, update):
 
 def main_menu(bot, update):
     """Show main menu"""
+
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     if DBWorker.get_reg_status(update.message.chat_id) != RegStatus.COMPLETE:
         update.message.reply_text('Вы заполнили не все данные о себе. '
@@ -118,6 +127,8 @@ def main_menu_handler(bot, update):
 def main_menu_update_room(bot, update):
     """Update room number from main menu"""
 
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+
     if update_room(update, UPDATE_ROOM) == UPDATE_ROOM:
         return UPDATE_ROOM
 
@@ -128,22 +139,12 @@ def main_menu_update_room(bot, update):
 def get_complaint(bot, update):
     """Get complaint"""
 
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+
     DBWorker.add_complaint(update.message.chat_id, update.message.text)
     update.message.reply_text('Спасибо. Мы попытаемся решить вашу проблему :)')
 
     return MAIN_MENU
-
-def cancel(bot, update):
-    """Cancel from registration conversation"""
-
-    user = update.message.from_user
-
-    LOGGER.info('Пользователь %s закончил диалог', user.first_name)
-
-    update.message.reply_text('Пока :)',
-                              reply_markup=ReplyKeyboardRemove())
-
-    return ConversationHandler.END
 
 def error(bot, update, error_msg):
     """Logg error caused by updates"""
