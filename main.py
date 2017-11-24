@@ -63,28 +63,18 @@ def phone(bot, update):
 
     LOGGER.info('User was registered: ' + str(chat_id) + ' | ' + str(phone_number))
 
-    update.message.reply_text('Теперь введи номер своей комнаты, как на твоем пропуске.',
+    update.message.reply_text('Теперь введи номер своей комнаты. Он должен состоять из 4-ех цифр.',
                               reply_markup=ReplyKeyboardRemove())
 
     return ROOM
-
-def update_room(update, state):
-    """Update user room"""
-
-    room_str = update.message.text
-
-    if len(room_str) != 4 or not str.isdigit(room_str):
-        update.message.reply_text('Пожалуйста, введите корректный номер комнаты.')
-        return state
-
-    DBWorker.update_room(update.message.chat_id, room_str)
 
 def room(bot, update):
     """Register user room"""
 
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
-    if update_room(update, ROOM) == ROOM:
+    if not DBWorker.update_room(update.message.chat_id, update.message.text):
+        update.message.reply_text('Некоректный номер комнаты. Попробуй еще раз :)')
         return ROOM
 
     update.message.reply_text('Спасибо! Введи /main, чтобы увидеть на что я способен.')
@@ -118,7 +108,7 @@ def main_menu_handler(bot, update):
     cmd = update.message.text
 
     if cmd == MAIN_MENU_BTNS['change_room']:
-        update.message.reply_text('Введите новый номер комнаты.')
+        update.message.reply_text('Введите новый номер комнаты. Он должен состоять из 4-ех цифр.')
         return ROOM
     elif cmd == MAIN_MENU_BTNS['send_complaint']:
         update.message.reply_text('Введите свою жалобу.')
@@ -129,7 +119,8 @@ def main_menu_update_room(bot, update):
 
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
-    if update_room(update, UPDATE_ROOM) == UPDATE_ROOM:
+    if not DBWorker.update_room(update.message.chat_id, update.message.text):
+        update.message.reply_text('Некоректный номер комнаты. Попробуй еще раз :)')
         return UPDATE_ROOM
 
     update.message.reply_text('Комната успешно изменена.')

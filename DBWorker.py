@@ -1,8 +1,14 @@
 """Module for working with database"""
 
+import logging
 from enum import Enum
 import pg
 import ParseConfig
+
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    level=logging.INFO)
+
+LOGGER = logging.getLogger(__name__)
 
 DB_CONFIG = ParseConfig.get_db_config()
 PDB = pg.DB(dbname=DB_CONFIG['dbname'], host=DB_CONFIG['host'], port=int(DB_CONFIG['port']),\
@@ -39,7 +45,16 @@ def reg_user(user_chat_id, telephone_number):
 def update_room(user_chat_id, room):
     """Update user room"""
 
+    LOGGER.info('Try update room: {0} | {1}'.format(user_chat_id, room))
+
+    if len(room) != 4 or not str.isdigit(room):
+        return False
+
     PDB.update('users', PDB.get('users', dict(chat_id=user_chat_id)), room=room)
+
+    LOGGER.info('Update room: {0} | {1}'.format(user_chat_id, room))
+
+    return True
 
 def add_complaint(user_chat_id, text):
     """Add user complaint"""
