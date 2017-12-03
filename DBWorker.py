@@ -11,6 +11,9 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 LOGGER = logging.getLogger(__name__)
 
 DB_CONFIG = ParseConfig.get_db_config()
+USERS_TABLE = DB_CONFIG['tables']['users']
+COMPLAINTS_TABLE = DB_CONFIG['tables']['complaints']
+
 PDB = pg.DB(dbname=DB_CONFIG['dbname'], host=DB_CONFIG['host'], port=int(DB_CONFIG['port']),\
          user=DB_CONFIG['user'], passwd=DB_CONFIG['passwd'])
 
@@ -27,7 +30,7 @@ def get_reg_status(user_chat_id):
     user = dict(chat_id=user_chat_id)
 
     try:
-        PDB.get('users', user)
+        PDB.get(USERS_TABLE, user)
 
         if user['room'] is None:
             return RegStatus.NO_ROOM
@@ -40,7 +43,7 @@ def get_reg_status(user_chat_id):
 def reg_user(user_chat_id, telephone_number):
     """Add user chat_id with phone"""
 
-    PDB.insert('users', chat_id=user_chat_id, telephone_number=telephone_number)
+    PDB.insert(USERS_TABLE, chat_id=user_chat_id, telephone_number=telephone_number)
 
 def update_room(user_chat_id, room):
     """Update user room"""
@@ -50,7 +53,7 @@ def update_room(user_chat_id, room):
     if len(room) != 4 or not str.isdigit(room):
         return False
 
-    PDB.update('users', PDB.get('users', dict(chat_id=user_chat_id)), room=room)
+    PDB.update(USERS_TABLE, PDB.get(USERS_TABLE, dict(chat_id=user_chat_id)), room=room)
 
     LOGGER.info('Update room: {0} | {1}'.format(user_chat_id, room))
 
@@ -59,4 +62,4 @@ def update_room(user_chat_id, room):
 def add_complaint(user_chat_id, text):
     """Add user complaint"""
 
-    PDB.insert('complaints', chat_id=user_chat_id, text=text)
+    PDB.insert(COMPLAINTS_TABLE, chat_id=user_chat_id, text=text)

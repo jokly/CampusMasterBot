@@ -1,4 +1,9 @@
 {
+    "tables":
+    {
+        "users": "campus_master_user",
+        "complaints": "campus_master_complaint"
+    },
     "conversations":
     {
         "registration":
