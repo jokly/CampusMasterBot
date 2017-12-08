@@ -20,7 +20,7 @@ REG_BTNS = ParseConfig.get_reg_btns()
 PHONE, ROOM = range(2)
 
 MAIN_MENU_BTNS = ParseConfig.get_main_menu_btns()
-MAIN_MENU, UPDATE_ROOM, COMPLAINT = range(3)
+MAIN_MENU, UPDATE_ROOM, COMPLAINT, CHANGE_STATUS = range(4)
 
 def start(bot, update):
     """/start command"""
@@ -94,8 +94,10 @@ def main_menu(bot, update):
 
     change_room_btn = KeyboardButton(text=MAIN_MENU_BTNS['change_room'])
     send_complaint_btn = KeyboardButton(text=MAIN_MENU_BTNS['send_complaint'])
+    change_status_btn = KeyboardButton(text=MAIN_MENU_BTNS['change_status'])
 
-    keyboard = ReplyKeyboardMarkup([[change_room_btn, send_complaint_btn]], one_time_keyboard=True)
+    keyboard = ReplyKeyboardMarkup([[change_room_btn, send_complaint_btn], [change_status_btn]],
+                                   one_time_keyboard=True)
 
     update.message.reply_text('Главное меню',
                               reply_markup=keyboard)
@@ -113,6 +115,9 @@ def main_menu_handler(bot, update):
     elif cmd == MAIN_MENU_BTNS['send_complaint']:
         update.message.reply_text('Введите свою жалобу.')
         return COMPLAINT
+    elif cmd == MAIN_MENU_BTNS['change_status']:
+        update.message.reply_text('Введите статус своей комнаты.')
+        return CHANGE_STATUS
 
 def main_menu_update_room(bot, update):
     """Update room number from main menu"""
@@ -127,13 +132,22 @@ def main_menu_update_room(bot, update):
 
     return MAIN_MENU
 
-def get_complaint(bot, update):
-    """Get complaint"""
+def add_complaint(bot, update):
+    """Add complaint"""
 
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     DBWorker.add_complaint(update.message.chat_id, update.message.text)
     update.message.reply_text('Спасибо. Мы попытаемся решить вашу проблему :)')
+
+    return MAIN_MENU
+
+def change_room_status(bot, update):
+    """Change room status"""
+
+    bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+    DBWorker.change_room_status(DBWorker.get_room(update.message.chat_id), update.message.text)
+    update.message.reply_text('Статус успешно изменен.')
 
     return MAIN_MENU
 
@@ -175,7 +189,8 @@ def main():
         states={
             MAIN_MENU: [MessageHandler(Filters.text, main_menu_handler)],
             UPDATE_ROOM: [MessageHandler(Filters.text, main_menu_update_room)],
-            COMPLAINT: [MessageHandler(Filters.text, get_complaint)]
+            COMPLAINT: [MessageHandler(Filters.text, add_complaint)],
+            CHANGE_STATUS: [MessageHandler(Filters.text, change_room_status)]
         },
 
         fallbacks=[CommandHandler('main', main_menu)]

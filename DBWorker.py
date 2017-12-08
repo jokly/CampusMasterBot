@@ -13,6 +13,7 @@ LOGGER = logging.getLogger(__name__)
 DB_CONFIG = ParseConfig.get_db_config()
 USERS_TABLE = DB_CONFIG['tables']['users']
 COMPLAINTS_TABLE = DB_CONFIG['tables']['complaints']
+STATUS_TABLE = DB_CONFIG['tables']['status']
 
 PDB = pg.DB(dbname=DB_CONFIG['dbname'], host=DB_CONFIG['host'], port=int(DB_CONFIG['port']),\
          user=DB_CONFIG['user'], passwd=DB_CONFIG['passwd'])
@@ -63,3 +64,23 @@ def add_complaint(user_chat_id, text):
     """Add user complaint"""
 
     PDB.insert(COMPLAINTS_TABLE, chat_id=user_chat_id, text=text)
+
+def get_room(user_chat_id):
+    """Returns user room"""
+
+    user = dict(chat_id=user_chat_id)
+    PDB.get(USERS_TABLE, user)
+
+    return user['room']
+
+def change_room_status(room, text):
+    """Change room status"""
+
+    status = dict(room=room)
+
+    try:
+        PDB.get(STATUS_TABLE, status)
+        PDB.update(STATUS_TABLE, status, text=text)
+
+    except pg.DatabaseError:
+        PDB.insert(STATUS_TABLE, room=room, text=text)

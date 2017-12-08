@@ -2,7 +2,8 @@
     "tables":
     {
         "users": "campus_master_user",
-        "complaints": "campus_master_complaint"
+        "complaints": "campus_master_complaint",
+        "status": "campus_master_status"
     },
     "conversations":
     {
@@ -24,7 +25,8 @@
         "main_menu":
         {
             "change_room": "Изменить комнату",
-            "send_complaint": "Отправить жалобу"
+            "send_complaint": "Отправить жалобу",
+            "change_status": "Изменить статус комнаты"
         }
     }
 }

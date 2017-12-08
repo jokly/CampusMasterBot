@@ -26,7 +26,8 @@ def get_db_config():
     return {'dbname': environ.get('DB_NAME'), 'host': environ.get('DB_HOST'),
             'port': environ.get('DB_PORT'), 'user': environ.get('DB_USER'),
             'passwd': environ.get('DB_PASSWD'), 'tables':
-                {'users': CONFIG['tables']['users'], 'complaints': CONFIG['tables']['complaints']}
+                {'users': CONFIG['tables']['users'], 'complaints': CONFIG['tables']['complaints'],
+                 'status': CONFIG['tables']['status']}
            }
 
 def get_reg_btns():
