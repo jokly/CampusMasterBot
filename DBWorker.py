@@ -51,7 +51,7 @@ def update_room(user_chat_id, room):
 
     LOGGER.info('Try update room: {0} | {1}'.format(user_chat_id, room))
 
-    if len(room) != 4 or not str.isdigit(room):
+    if len(room) != 5 or not str.isdigit(room):
         return False
 
     PDB.update(USERS_TABLE, PDB.get(USERS_TABLE, dict(chat_id=user_chat_id)), room=room)
