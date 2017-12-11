@@ -63,7 +63,7 @@ def phone(bot, update):
 
     LOGGER.info('User was registered: ' + str(chat_id) + ' | ' + str(phone_number))
 
-    update.message.reply_text('Теперь введи номер своей комнаты. Он должен состоять из 4-ех цифр.',
+    update.message.reply_text('Теперь введи номер своей комнаты. Он должен состоять из 5-ти цифр.',
                               reply_markup=ReplyKeyboardRemove())
 
     return ROOM
