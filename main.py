@@ -110,7 +110,7 @@ def main_menu_handler(bot, update):
     cmd = update.message.text
 
     if cmd == MAIN_MENU_BTNS['change_room']:
-        update.message.reply_text('Введите новый номер комнаты. Он должен состоять из 4-ех цифр.')
+        update.message.reply_text('Введите новый номер комнаты. Он должен состоять из 5-ти цифр.')
         return ROOM
     elif cmd == MAIN_MENU_BTNS['send_complaint']:
         update.message.reply_text('Введите свою жалобу.')
