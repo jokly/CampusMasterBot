@@ -63,7 +63,8 @@ def phone(bot, update):
 
     LOGGER.info('User was registered: ' + str(chat_id) + ' | ' + str(phone_number))
 
-    update.message.reply_text('Теперь введи номер своей комнаты. Он должен состоять из 5-ти цифр.',
+    update.message.reply_text('Теперь введи номер своей комнаты. Он должен состоять из 5-ти цифр, '
+                              'как на твоем пропуске.',
                               reply_markup=ReplyKeyboardRemove())
 
     return ROOM
@@ -110,7 +111,8 @@ def main_menu_handler(bot, update):
     cmd = update.message.text
 
     if cmd == MAIN_MENU_BTNS['change_room']:
-        update.message.reply_text('Введите новый номер комнаты. Он должен состоять из 5-ти цифр.')
+        update.message.reply_text('Введите новый номер комнаты. Он должен состоять из 5-ти цифр, '
+                                  'как на твоем пропуске.')
         return ROOM
     elif cmd == MAIN_MENU_BTNS['send_complaint']:
         update.message.reply_text('Введите свою жалобу.')
