@@ -5,28 +5,34 @@
         "complaints": "campus_master_complaint",
         "status": "campus_master_status"
     },
-    "conversations":
+    "lang":
     {
-        "registration":
+        "ru":
         {
+            "conversations":
+            {
+                "registration":
+                {
 
-        },
-        "main":
-        {
+                },
+                "main":
+                {
 
-        }
-    },
-    "menus":
-    {
-        "reg_menu":
-        {
-            "share_phone_number": "Отправить номер"
-        },
-        "main_menu":
-        {
-            "change_room": "Изменить комнату",
-            "send_complaint": "Отправить жалобу",
-            "change_status": "Изменить статус комнаты"
+                }
+            },
+            "menus":
+            {
+                "reg_menu":
+                {
+                    "share_phone_number": "Отправить номер"
+                },
+                "main_menu":
+                {
+                    "change_room": "Изменить комнату",
+                    "send_complaint": "Отправить жалобу",
+                    "change_status": "Изменить статус комнаты"
+                }
+            }
         }
     }
 }

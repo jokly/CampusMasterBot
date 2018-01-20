@@ -3,7 +3,12 @@
 from os import environ
 import json
 
+lang = 'ru'
+
 CONFIG = json.load(open('config.json'))
+
+def set_lang(_lang):
+    lang = _lang
 
 def get_env():
     """Return enviroment ['dev' or 'prod']"""
@@ -33,9 +38,9 @@ def get_db_config():
 def get_reg_btns():
     """Return dict with buttons text for registration"""
 
-    return CONFIG['menus']['reg_menu']
+    return CONFIG['lang'][lang]['menus']['reg_menu']
 
 def get_main_menu_btns():
     """Return dict with buttons text for main menu"""
 
-    return CONFIG['menus']['main_menu']
+    return CONFIG['lang'][lang]['menus']['main_menu']
