@@ -111,6 +111,7 @@ def main_menu_handler(bot, update):
     """Main menu buttons handler"""
 
     cmd = update.message.text
+    lang = update.effective_user.language_code
 
     if cmd == MAIN_MENU_BTNS['change_room']:
         update.message.reply_text(ParseConfig.get_conversations(lang, 'main', 'change_room'))
@@ -149,7 +150,7 @@ def change_room_status(bot, update):
     """Change room status"""
     lang = update.effective_user.language_code
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-    DBWorker.change_room_status(DBWorker.get_room_number(update.message.chat_id), update.message.text)
+    DBWorker.change_room_status(DBWorker.get_room(update.message.chat_id), update.message.text)
     update.message.reply_text(ParseConfig.get_conversations(lang, 'main', 'status_successfully_changed'))
 
     return MAIN_MENU
