@@ -160,8 +160,8 @@ def help(bot, update):
 
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
-    update.message.reply_text('Для регистрации или ее продолжения введите - /start. \n' +
-                              'Для вывода главного меню введите - /main.')
+    lang = update.effective_user.language_code
+    update.message.reply_text(ParseConfig.get_conversations(lang, 'help'))
 
 def error(bot, update, error_msg):
     """Logg error caused by updates"""

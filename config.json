@@ -11,6 +11,7 @@
         {
             "conversations":
             {
+                "help": "Для регистрации или ее продолжения введите - /start.\nДля вывода главного меню введите - /main.",
                 "registration":
                 {
                     "already_registered": "Ты уже зарегестрирован ;) Для начала введи /main",
@@ -50,6 +51,7 @@
         {
             "conversations":
             {
+                "help": "To register or continue enter - /start.\nTo display the main menu enter - /main.",
                 "registration":
                 {
                     "already_registered": "You are already registered ;) Type /main at first.",
