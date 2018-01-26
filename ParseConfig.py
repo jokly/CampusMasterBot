@@ -57,6 +57,6 @@ def get_conversations(lang, *args):
     return text
 
 def format_lang(lang):
-    """ """
+    """Return formated lang """
 
     return lang.split('-')[0]
