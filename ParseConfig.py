@@ -30,33 +30,36 @@ def get_db_config():
                  'status': CONFIG['tables']['status']}
            }
 
-def get_reg_btns(lang):
-    """Return dict with buttons text for registration"""
+def get_reg_btn(lang, btn_name):
+    """Return button text for registration"""
 
-    lang = format_lang(lang)
-    return CONFIG['lang'][lang]['menus']['reg_menu']
+    return _get_text(lang, 'menus', 'reg_menu', btn_name)
 
-def get_main_menu_btns(lang):
-    """Return dict with buttons text for main menu"""
+def get_main_menu_btn(lang, btn_name):
+    """Return button text for main menu"""
 
-    lang = format_lang(lang)
-    return CONFIG['lang'][lang]['menus']['main_menu']
+    return _get_text(lang, 'menus', 'main_menu', btn_name)
 
 def get_conversations(lang, *args):
     """ Return dict with conversations messages according to language """
 
-    lang = format_lang(lang)
+    return _get_text(lang, 'conversations', *args)
+
+def _get_text(lang, *args):
+    """Return text from config.json """
+
+    lang = _format_lang(lang)
     if not lang in CONFIG['lang']:
         lang = 'en'
 
-    text = CONFIG['lang'][lang]['conversations']
+    text = CONFIG['lang'][lang]
 
-    for e in args:
-        text = text[e]
+    for arg in args:
+        text = text[arg]
 
     return text
 
-def format_lang(lang):
+def _format_lang(lang):
     """Return formated lang """
 
     return lang.split('-')[0]

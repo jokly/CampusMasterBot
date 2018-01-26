@@ -16,12 +16,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 LOGGER = logging.getLogger(__name__)
 
-REG_BTNS = ParseConfig.get_reg_btns('ru-Ru')
 PHONE, ROOM = range(2)
-
-MAIN_MENU_BTNS = ParseConfig.get_main_menu_btns('ru-Ru')
 MAIN_MENU, UPDATE_ROOM, COMPLAINT, CHANGE_STATUS = range(4)
-CONVERSATIONS = ParseConfig.get_conversations('ru-Ru')
 
 def start(bot, update):
     """/start command"""
@@ -40,7 +36,7 @@ def start(bot, update):
 
         return ConversationHandler.END
 
-    phone_btn = KeyboardButton(text=REG_BTNS['share_phone_number'], request_contact=True)
+    phone_btn = KeyboardButton(text=ParseConfig.get_reg_btn(lang, 'share_phone_number'), request_contact=True)
     keyboard = ReplyKeyboardMarkup([[phone_btn]], one_time_keyboard=True)
 
     update.message.reply_text(ParseConfig.get_conversations(lang, 'registration', 'need_phone_number'),
@@ -95,9 +91,9 @@ def main_menu(bot, update):
 
         return ConversationHandler.END
 
-    change_room_btn = KeyboardButton(text=MAIN_MENU_BTNS['change_room'])
-    send_complaint_btn = KeyboardButton(text=MAIN_MENU_BTNS['send_complaint'])
-    change_status_btn = KeyboardButton(text=MAIN_MENU_BTNS['change_status'])
+    change_room_btn = KeyboardButton(text=ParseConfig.get_main_menu_btn(lang, 'change_room'))
+    send_complaint_btn = KeyboardButton(text=ParseConfig.get_main_menu_btn(lang, 'send_complaint'))
+    change_status_btn = KeyboardButton(text=ParseConfig.get_main_menu_btn(lang, 'change_status'))
 
     keyboard = ReplyKeyboardMarkup([[change_room_btn, send_complaint_btn], [change_status_btn]],
                                    one_time_keyboard=True)
@@ -113,13 +109,13 @@ def main_menu_handler(bot, update):
     cmd = update.message.text
     lang = update.effective_user.language_code
 
-    if cmd == MAIN_MENU_BTNS['change_room']:
-        update.message.reply_text(ParseConfig.get_conversations(lang, 'main', 'change_room'))
+    if cmd == ParseConfig.get_main_menu_btn(lang, 'change_room'):
+        update.message.reply_text(ParseConfig.get_conversations(lang, 'main', 'get_room_number'))
         return ROOM
-    elif cmd == MAIN_MENU_BTNS['send_complaint']:
+    elif cmd == ParseConfig.get_main_menu_btn(lang, 'send_complaint'):
         update.message.reply_text()
         return COMPLAINT
-    elif cmd == MAIN_MENU_BTNS['change_status']:
+    elif cmd == ParseConfig.get_main_menu_btn(lang, 'change_status'):
         update.message.reply_text('Введите статус своей комнаты.')
         return CHANGE_STATUS
 
