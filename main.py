@@ -32,14 +32,17 @@ def start(bot, update):
 
         return ROOM
     elif reg_status == RegStatus.COMPLETE:
-        update.message.reply_text(ParseConfig.get_conversations(lang, 'registration', 'already_registered'))
+        update.message.reply_text(ParseConfig.get_conversations(lang, 'registration',
+                                                                'already_registered'))
 
         return ConversationHandler.END
 
-    phone_btn = KeyboardButton(text=ParseConfig.get_reg_btn(lang, 'share_phone_number'), request_contact=True)
+    phone_btn = KeyboardButton(text=ParseConfig.get_reg_btn(lang, 'share_phone_number'),
+                               request_contact=True)
     keyboard = ReplyKeyboardMarkup([[phone_btn]], one_time_keyboard=True)
 
-    update.message.reply_text(ParseConfig.get_conversations(lang, 'registration', 'need_phone_number'),
+    update.message.reply_text(ParseConfig.get_conversations(lang, 'registration',
+                                                            'need_phone_number'),
                               reply_markup=keyboard)
 
     return PHONE
@@ -74,10 +77,12 @@ def room(bot, update):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
     if not DBWorker.update_room(update.message.chat_id, update.message.text):
-        update.message.reply_text(ParseConfig.get_conversations(lang, 'registration', 'incorrect_room_number'))
+        update.message.reply_text(ParseConfig.get_conversations(lang, 'registration',
+                                                                'incorrect_room_number'))
         return ROOM
 
-    update.message.reply_text(ParseConfig.get_conversations(lang, 'registration', 'finished_registration'))
+    update.message.reply_text(ParseConfig.get_conversations(lang, 'registration',
+                                                            'finished_registration'))
 
     return ConversationHandler.END
 
@@ -87,7 +92,8 @@ def main_menu(bot, update):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     lang = update.effective_user.language_code
     if DBWorker.get_reg_status(update.message.chat_id) != RegStatus.COMPLETE:
-        update.message.reply_text(ParseConfig.get_conversations(lang, 'main', 'uncomplete_registration'))
+        update.message.reply_text(ParseConfig.get_conversations(lang, 'main',
+                                                                'uncomplete_registration'))
 
         return ConversationHandler.END
 
@@ -125,7 +131,8 @@ def main_menu_update_room(bot, update):
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     lang = update.effective_user.language_code
     if not DBWorker.update_room(update.message.chat_id, update.message.text):
-        update.message.reply_text(ParseConfig.get_conversations(lang, 'main', 'incorrect_room_number'))
+        update.message.reply_text(ParseConfig.get_conversations(lang, 'main',
+                                                                'incorrect_room_number'))
         return UPDATE_ROOM
 
     update.message.reply_text(ParseConfig.get_conversations(lang, 'main', 'changed_room_number'))
@@ -147,7 +154,8 @@ def change_room_status(bot, update):
     lang = update.effective_user.language_code
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     DBWorker.change_room_status(DBWorker.get_room(update.message.chat_id), update.message.text)
-    update.message.reply_text(ParseConfig.get_conversations(lang, 'main', 'status_successfully_changed'))
+    update.message.reply_text(ParseConfig.get_conversations(lang, 'main',
+                                                            'status_successfully_changed'))
 
     return MAIN_MENU
 
@@ -173,9 +181,9 @@ def main():
     dpt = updater.dispatcher
 
     reg_conv_handler = ConversationHandler(
-        entry_points = [CommandHandler('start', start)],
+        entry_points=[CommandHandler('start', start)],
 
-        states = {
+        states={
             PHONE: [MessageHandler(Filters.contact, phone)],
             ROOM: [MessageHandler(Filters.text, room)]
         },
