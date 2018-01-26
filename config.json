@@ -13,11 +13,23 @@
             {
                 "registration":
                 {
-
+                    "already_registered": "Ты уже зарегестрирован ;) Для начала введи /main",
+                    "need_phone_number": "Привет! Мне нужен твой номер телефона :)",
+                    "no_room": "У меня уже есть твой мобильный. Теперь тебе надо ввести номер своей комнаты.",
+                    "incorrect_room_number": "Некоректный номер комнаты. Попробуй еще раз :)",
+                    "finished_registration": "Спасибо! Введи /main, чтобы увидеть на что я способен",
+                    "get_room_number": "Теперь введи номер своей комнаты. Он должен состоять из 5-ти цифр, как на твоем пропуске."
                 },
                 "main":
                 {
-
+                    "main_menu": "Главное меню",
+                    "uncomplete_registration": "Вы заполнили не все данные о себе. Введи /start для регистрации.",
+                    "get_room_number": "Теперь введи номер своей комнаты. Он должен состоять из 5-ти цифр, как на твоем пропуске.",
+                    "added_complaint": "Спасибо. Мы попытаемся решить вашу проблему :)",
+                    "incorrect_room_number": "Некоректный номер комнаты. Попробуй еще раз :)",
+                    "get_complaint": "Введите свою жалобу.",
+                    "status_successfully_changed": "Статус успешно изменен.",
+                    "changed_room_number": "Room number was successfully changed."
                 }
             },
             "menus":
@@ -31,6 +43,44 @@
                     "change_room": "Изменить комнату",
                     "send_complaint": "Отправить жалобу",
                     "change_status": "Изменить статус комнаты"
+                }
+            }
+        },
+        "en":
+        {
+            "conversations":
+            {
+                "registration":
+                {
+                    "already_registered": "You are already registered ;) Type /main at first.",
+                    "need_phone_number": "Hello! I need your phone number :)",
+                    "incorrect_room_number": "Incorrect room number. Try again :)",
+                    "no_room": "I already have your number. Now you need to enter your room number.",
+                    "finished_registration": "Thank you! Type /main to discover what I can do.",
+                    "get_room_number": "Now enter your room number. It must contain 5 digits, like you have on your pass card. "
+                },
+                "main":
+                {
+                    "main_menu": "Main menu",
+                    "get_room_number": "Now enter your room number. It must contain 5 digits, like you have on your pass card. ",
+                    "get_complaint": "Enter your complaint.",
+                    "status_successfully_changed": "Status was successfully changed.",
+                    "added_complaint": "Thank you. We're trying to solve your problem :).",
+                    "incorrect_room_number": "Incorrect room number. Try again :)",
+                    "uncomplete_registration": "You haven't filled the information about you. Type /start for registration."
+                }
+            },
+            "menus":
+            {
+                "reg_menu":
+                {
+                    "share_phone_number": "Send number"
+                },
+                "main_menu":
+                {
+                    "change_room": "Change room",
+                    "send_complaint": "Send complaint",
+                    "change_status": "Change room's status"
                 }
             }
         }
