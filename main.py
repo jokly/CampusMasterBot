@@ -113,10 +113,10 @@ def main_menu_handler(bot, update):
         update.message.reply_text(ParseConfig.get_conversations(lang, 'main', 'get_room_number'))
         return ROOM
     elif cmd == ParseConfig.get_main_menu_btn(lang, 'send_complaint'):
-        update.message.reply_text()
+        update.message.reply_text(ParseConfig.get_conversations(lang, 'main', 'get_complaint'))
         return COMPLAINT
     elif cmd == ParseConfig.get_main_menu_btn(lang, 'change_status'):
-        update.message.reply_text('Введите статус своей комнаты.')
+        update.message.reply_text(ParseConfig.get_conversations(lang, 'main', 'get_room_status'))
         return CHANGE_STATUS
 
 def main_menu_update_room(bot, update):

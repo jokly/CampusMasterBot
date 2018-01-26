@@ -29,8 +29,9 @@
                     "added_complaint": "Спасибо. Мы попытаемся решить вашу проблему :)",
                     "incorrect_room_number": "Некоректный номер комнаты. Попробуй еще раз :)",
                     "get_complaint": "Введите свою жалобу.",
+                    "get_room_status": "Введите статус своей комнаты.",
                     "status_successfully_changed": "Статус успешно изменен.",
-                    "changed_room_number": "Room number was successfully changed."
+                    "changed_room_number": "Номер комнаты был успешно изменен."
                 }
             },
             "menus":
@@ -66,10 +67,12 @@
                     "main_menu": "Main menu",
                     "get_room_number": "Now enter your room number. It must contain 5 digits, like you have on your pass card. ",
                     "get_complaint": "Enter your complaint.",
+                    "get_room_status": "Enter your room status.",
                     "status_successfully_changed": "Status was successfully changed.",
                     "added_complaint": "Thank you. We're trying to solve your problem :).",
                     "incorrect_room_number": "Incorrect room number. Try again :)",
-                    "uncomplete_registration": "You haven't filled the information about you. Type /start for registration."
+                    "uncomplete_registration": "You haven't filled the information about you. Type /start for registration.",
+                    "changed_room_number": "Room number was successfully changed."
                 }
             },
             "menus":
