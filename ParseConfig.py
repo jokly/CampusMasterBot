@@ -46,12 +46,15 @@ def get_conversations(lang, *args):
     """ Return dict with conversations messages according to language """
 
     lang = format_lang(lang)
-    r = CONFIG['lang'][lang]['conversations']
+    if not lang in CONFIG['lang']:
+        lang = 'en'
+
+    text = CONFIG['lang'][lang]['conversations']
 
     for e in args:
-        r = r[e]
+        text = text[e]
 
-    return r
+    return text
 
 def format_lang(lang):
     """ """
