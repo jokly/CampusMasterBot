@@ -91,6 +91,8 @@ def main_menu(bot, update):
 
     bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
     lang = update.effective_user.language_code
+    LOGGER.info(lang)
+
     if DBWorker.get_reg_status(update.message.chat_id) != RegStatus.COMPLETE:
         update.message.reply_text(ParseConfig.get_conversations(lang, 'main',
                                                                 'uncomplete_registration'))
