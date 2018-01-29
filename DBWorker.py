@@ -2,6 +2,7 @@
 
 import logging
 from enum import Enum
+from datetime import datetime
 import pg
 import ParseConfig
 
@@ -80,7 +81,7 @@ def change_room_status(room, text):
 
     try:
         PDB.get(STATUS_TABLE, status)
-        PDB.update(STATUS_TABLE, status, text=text)
+        PDB.update(STATUS_TABLE, status, timestamp=datetime.now(),  text=text)
 
     except pg.DatabaseError:
-        PDB.insert(STATUS_TABLE, room=room, text=text)
+        PDB.insert(STATUS_TABLE, room=room, timestamp=datetime.now(), text=text)
