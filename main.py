@@ -65,7 +65,7 @@ def phone(bot, update):
 
     LOGGER.info('User was registered: ' + str(chat_id) + ' | ' + str(phone_number))
 
-    update.message.reply_text(ParseConfig.get_conversations(lang, 'registrations', 'room_number'),
+    update.message.reply_text(ParseConfig.get_conversations(lang, 'registration', 'get_room_number'),
                               reply_markup=ReplyKeyboardRemove())
 
     return ROOM
